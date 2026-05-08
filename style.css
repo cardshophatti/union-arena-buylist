@@ -267,3 +267,33 @@ main {
 
   min-width: 180px;
 }
+
+@media screen and (max-width: 768px) {
+
+  body {
+    font-size: 14px;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  th,
+  td {
+    padding: 8px 6px;
+  }
+
+  .card-name {
+    min-width: 140px;
+  }
+
+  #title-tabs {
+    gap: 6px;
+  }
+
+  .title-tab {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+}
