@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>カードショップはっちユニオンアリーナ買取表</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<div id="image-modal" class="hidden">
+  <img id="modal-image" src="" alt="">
+</div>
+
+<body>
+
+  <header>
+    <h1>ユニオンアリーナ買取表</h1>
+  </header>
+
+<main>
+  <div class="notice-box">
+
+  <h2>注意事項</h2>
+
+  <p>
+    ・買取価格は美品基準です。
+  </p>
+
+  <p>
+    ・在庫状況・相場等により、買取価格は予告なく変更となる場合があります。
+  </p>
+<div class="notice-more hidden" id="notice-more">
+
+  <p>
+    ・買取は店頭でのみ実施しております。（店舗情報は<a href="https://cardshop-hatti.jp/feature/card-shops-in-namba/"
+    target="_blank">
+  こちら
+</a>）
+  </p>
+
+  <p>
+    ・買取受付時間は 平日:12:00～20:30、土日祝日:10:00～20:30 となります。<br>
+    ※買取受付時間は予告なく変更する場合がございます。あらかじめご了承ください。
+  </p>
+
+</div>
+
+<button id="notice-toggle">
+  ▼ 続きを見る
+</button>
+</div>
+
+
+  <div class="search-area">
+  <input
+    type="text"
+    id="search-input"
+    placeholder="カード名・作品名・型番で検索"
+  >
+</div>
+
+<button id="refresh-button">
+  ↻ 最新価格取得
+</button>
+
+<div id="title-tabs"></div>
+
+
+<p id="update-time"></p>
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>タイトル</th>
+        <th>名前</th>
+        <th>型番</th>
+        <th>レアリティ</th>
+        <th>買取価格</th>
+      </tr>
+    </thead>
+
+    <tbody id="card-list">
+    </tbody>
+  </table>
+  </div>
+</main>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
