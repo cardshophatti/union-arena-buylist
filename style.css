@@ -297,19 +297,16 @@ main {
   }
 
 }
-  table {
 
-    font-size: 11px;
-  }
+table {
+  min-width: unset;
+}
 
-  th,
-  td {
+table {
+  table-layout: fixed;
+}
 
-    padding: 6px 4px;
-  }
-
-  .card-name {
-
-    min-width: 120px;
-  }
-
+th,
+td {
+  width: auto;
+}
