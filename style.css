@@ -1,3 +1,7 @@
+/* =========================
+   共通
+========================= */
+
 * {
   box-sizing: border-box;
 }
@@ -7,27 +11,142 @@ body {
   background: #f3f4f6;
   font-family: sans-serif;
   color: #333;
+
+  overflow-x: hidden;
 }
+
+.hidden {
+  display: none;
+}
+
+
+/* =========================
+   レイアウト
+========================= */
 
 header {
   background: #111827;
   color: white;
-  padding: 20px;
+
+  padding: 16px 20px;
 }
 
 h1 {
   margin: 0;
-  font-size: 28px;
+
+  font-size: 24px;
 }
 
 main {
-  padding: 20px;
+  max-width: 1000px;
+
+  margin: 0 auto;
+
+  padding: 16px;
+}
+
+
+/* =========================
+   検索
+========================= */
+
+.search-area {
+  margin-bottom: 16px;
+}
+
+#search-input {
+  width: 100%;
+
+  padding: 12px;
+
+  font-size: 14px;
+
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+
+/* =========================
+   タイトルタブ
+========================= */
+
+#title-tabs {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-bottom: 14px;
+}
+
+.title-tab {
+  padding: 6px 12px;
+
+  background: white;
+
+  border: 1px solid #ccc;
+  border-radius: 999px;
+
+  cursor: pointer;
+
+  font-size: 12px;
+}
+
+.title-tab.active {
+  background: #111827;
+  color: white;
+}
+
+
+/* =========================
+   更新ボタン
+========================= */
+
+#refresh-button {
+  margin-bottom: 14px;
+
+  padding: 8px 14px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #111827;
+  color: white;
+
+  cursor: pointer;
+
+  font-size: 13px;
+}
+
+#refresh-button:hover {
+  opacity: 0.9;
+}
+
+#update-time {
+  margin-bottom: 14px;
+
+  color: #666;
+
+  font-size: 12px;
+}
+
+
+/* =========================
+   テーブル
+========================= */
+
+.table-wrapper {
+  overflow-x: auto;
 }
 
 table {
   width: 100%;
+
   border-collapse: collapse;
+
   background: white;
+
+  table-layout: fixed;
 }
 
 thead {
@@ -37,60 +156,52 @@ thead {
 
 th,
 td {
-  padding: 14px;
+  padding: 10px 8px;
+
   border-bottom: 1px solid #ddd;
+
   text-align: left;
+
+  width: auto;
+
+  word-break: break-word;
+
+  font-size: 12px;
 }
 
-
 .card-name {
+  min-width: 160px;
+
   font-weight: bold;
 }
 
 .price {
   color: #dc2626;
-  font-size: 20px;
-  font-weight: bold;
-}
 
-.card-image {
-  width: 60px;
-  border-radius: 6px;
-}
-
-@media (max-width: 768px) {
-
-  th,
-  td {
-    padding: 10px;
-    font-size: 12px;
-  }
-
-  .price {
-    font-size: 16px;
-  }
-
-  .card-image {
-    width: 40px;
-  }
-
-}
-
-.search-area {
-  margin-bottom: 20px;
-}
-
-#search-input {
-  width: 100%;
-  padding: 14px;
   font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  font-weight: bold;
+
+  white-space: nowrap;
+}
+
+
+/* =========================
+   画像ポップアップ
+========================= */
+
+.image-popup-trigger {
+  color: #2563eb;
+
+  font-weight: bold;
+
+  cursor: pointer;
 }
 
 #image-modal {
   position: fixed;
+
   inset: 0;
+
   background: rgba(0,0,0,0.4);
 
   display: flex;
@@ -105,80 +216,22 @@ td {
 }
 
 #modal-image {
-  max-width: 320px;
-  max-height: 420px;
+  max-width: 280px;
+  max-height: 400px;
 
   border-radius: 12px;
 
+  background: white;
+
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-
-  background: white;
 }
 
-.image-popup-trigger {
-  color: #2563eb;
-  font-weight: bold;
-  cursor: pointer;
-}
 
-#update-time {
-  margin-bottom: 16px;
-  color: #666;
-  font-size: 14px;
-}
-
-.table-wrapper {
-  overflow-x: auto;
-}
-
-#title-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-
-  margin-bottom: 16px;
-}
-
-.title-tab {
-  padding: 8px 14px;
-
-  background: white;
-
-  border: 1px solid #ccc;
-  border-radius: 999px;
-
-  cursor: pointer;
-
-  font-size: 14px;
-}
-
-.title-tab.active {
-  background: #111827;
-  color: white;
-}
-
-#refresh-button {
-  margin-bottom: 16px;
-
-  padding: 10px 16px;
-
-  border: none;
-  border-radius: 8px;
-
-  background: #111827;
-  color: white;
-
-  cursor: pointer;
-
-  font-size: 14px;
-}
-
-#refresh-button:hover {
-  opacity: 0.9;
-}
+/* =========================
+   注意事項
+========================= */
 
 .notice-box {
-
   margin-bottom: 20px;
 
   background: white;
@@ -189,29 +242,17 @@ td {
   overflow: hidden;
 }
 
-.notice-box summary {
-
-  padding: 14px 16px;
-
-  cursor: pointer;
-
-  font-weight: bold;
-
-  background: #f9fafb;
-}
-
 .notice-content {
-
-  padding: 16px;
+  padding: 14px;
 }
 
 .notice-content p {
+  margin: 0 0 8px;
 
-  margin: 0 0 10px;
+  font-size: 13px;
 }
 
 .notice-box details summary {
-
   list-style: none;
 
   cursor: pointer;
@@ -219,6 +260,8 @@ td {
   color: #2563eb;
 
   font-weight: bold;
+
+  padding: 0 14px 14px;
 }
 
 .notice-box details summary::-webkit-details-marker {
@@ -226,65 +269,37 @@ td {
 }
 
 .notice-box details summary::after {
-
   content: "続きを読む";
 }
 
 .notice-box details[open] summary::after {
-
   content: "閉じる";
 }
 
-.hidden {
-  display: none;
-}
 
-#notice-toggle {
-
-  margin-top: 10px;
-
-  border: none;
-
-  background: none;
-
-  color: #2563eb;
-
-  font-weight: bold;
-
-  cursor: pointer;
-}
-
-main {
-
-  max-width: 1000px;
-
-  margin: 0 auto;
-
-  padding: 20px;
-}
-
-.card-name {
-
-  min-width: 180px;
-}
+/* =========================
+   スマホ
+========================= */
 
 @media screen and (max-width: 768px) {
 
-  body {
-    font-size: 14px;
-  }
-
-  table {
-    font-size: 12px;
+  h1 {
+    font-size: 20px;
   }
 
   th,
   td {
     padding: 8px 6px;
+
+    font-size: 10px;
+  }
+
+  .price {
+    font-size: 13px;
   }
 
   .card-name {
-    min-width: 140px;
+    min-width: 120px;
   }
 
   #title-tabs {
@@ -292,21 +307,13 @@ main {
   }
 
   .title-tab {
-    padding: 6px 10px;
-    font-size: 12px;
+    padding: 5px 10px;
+
+    font-size: 11px;
   }
 
-}
+  #search-input {
+    font-size: 13px;
+  }
 
-table {
-  min-width: unset;
-}
-
-table {
-  table-layout: fixed;
-}
-
-th,
-td {
-  width: auto;
 }
