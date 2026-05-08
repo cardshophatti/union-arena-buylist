@@ -253,3 +253,17 @@ td {
 
   cursor: pointer;
 }
+
+main {
+
+  max-width: 1000px;
+
+  margin: 0 auto;
+
+  padding: 20px;
+}
+
+.card-name {
+
+  min-width: 180px;
+}
