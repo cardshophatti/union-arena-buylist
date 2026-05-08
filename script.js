@@ -8,8 +8,23 @@ let allCards = [];
 
 let currentTitle = "ALL";
 
+let currentView = "table";
+
 const cachedData = localStorage.getItem(CACHE_KEY);
 const cachedTime = localStorage.getItem(CACHE_TIME_KEY);
+
+
+  const tableViewButton =
+  document.getElementById("table-view-button");
+
+const cardViewButton =
+  document.getElementById("card-view-button");
+
+const tableWrapper =
+  document.querySelector(".table-wrapper");
+
+const cardView =
+  document.getElementById("card-view");
 
 if (
   cachedData &&
@@ -30,25 +45,45 @@ fetchCards();
 
 function renderCards(cards) {
 
-  const cardList = document.getElementById("card-list");
+  if (currentView === "table") {
+
+    renderTable(cards);
+
+  } else {
+
+    renderCardView(cards);
+
+  }
+
+}
+
+function renderTable(cards) {
+
+  tableWrapper.classList.remove("hidden");
+
+  cardView.classList.add("hidden");
+
+  const cardList =
+    document.getElementById("card-list");
 
   cardList.innerHTML = "";
 
   cards.forEach(card => {
 
-    const row = document.createElement("tr");
+    const row =
+      document.createElement("tr");
 
     row.innerHTML = `
       <td>${card["タイトル"]}</td>
 
-<td class="card-name">
-  <span
-    class="image-popup-trigger"
-    data-image="${card["画像URL"]}"
-  >
-    ${card["名前"]}
-  </span>
-</td>
+      <td class="card-name">
+        <span
+          class="image-popup-trigger"
+          data-image="${card["画像URL"]}"
+        >
+          ${card["名前"]}
+        </span>
+      </td>
 
       <td>${card["型番"]}</td>
 
@@ -60,6 +95,46 @@ function renderCards(cards) {
     `;
 
     cardList.appendChild(row);
+
+  });
+
+}
+
+function renderCardView(cards) {
+
+  tableWrapper.classList.add("hidden");
+
+  cardView.classList.remove("hidden");
+
+  cardView.innerHTML = "";
+
+  cards.forEach(card => {
+
+    const item =
+      document.createElement("div");
+
+    item.className = "card-item";
+
+    item.innerHTML = `
+      <img
+        src="${card["画像URL"]}"
+        class="card-item-image"
+      >
+
+      <div class="card-item-name">
+        ${card["名前"]}
+      </div>
+
+      <div class="card-item-number">
+        ${card["型番"]}
+      </div>
+
+      <div class="card-item-price">
+        ¥${Number(card["買取価格"]).toLocaleString()}
+      </div>
+    `;
+
+    cardView.appendChild(item);
 
   });
 
@@ -237,6 +312,7 @@ const noticeToggle =
 const noticeMore =
   document.getElementById("notice-more");
 
+
 let noticeOpen = false;
 
 noticeToggle.addEventListener("click", () => {
@@ -258,5 +334,29 @@ noticeToggle.addEventListener("click", () => {
       "▼ 続きを見る";
 
   }
+
+});
+
+tableViewButton.addEventListener("click", () => {
+
+  currentView = "table";
+
+  tableViewButton.classList.add("active");
+
+  cardViewButton.classList.remove("active");
+
+  filterCards();
+
+});
+
+cardViewButton.addEventListener("click", () => {
+
+  currentView = "card";
+
+  cardViewButton.classList.add("active");
+
+  tableViewButton.classList.remove("active");
+
+  filterCards();
 
 });

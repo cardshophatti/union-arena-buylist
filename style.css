@@ -317,3 +317,89 @@ td {
   }
 
 }
+
+.view-toggle {
+
+  display: flex;
+
+  gap: 10px;
+
+  margin-bottom: 16px;
+}
+
+.view-toggle button {
+
+  padding: 8px 14px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #e5e7eb;
+
+  cursor: pointer;
+}
+
+.view-toggle button.active {
+
+  background: #111827;
+
+  color: white;
+}
+
+#card-view:not(.hidden) {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(160px, 1fr));
+
+  gap: 16px;
+}
+
+.card-item {
+
+  background: white;
+
+  border-radius: 12px;
+
+  padding: 12px;
+
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.08);
+}
+
+.card-item-image {
+
+  width: 100%;
+
+  border-radius: 8px;
+
+  margin-bottom: 10px;
+}
+
+.card-item-name {
+
+  font-size: 14px;
+
+  font-weight: bold;
+
+  margin-bottom: 6px;
+}
+
+.card-item-number {
+
+  font-size: 12px;
+
+  color: #666;
+
+  margin-bottom: 8px;
+}
+
+.card-item-price {
+
+  color: #dc2626;
+
+  font-size: 18px;
+
+  font-weight: bold;
+}
