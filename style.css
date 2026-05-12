@@ -8,8 +8,11 @@
 
 body {
   margin: 0;
+
   background: #f3f4f6;
+
   font-family: sans-serif;
+
   color: #333;
 
   overflow-x: hidden;
@@ -19,13 +22,13 @@ body {
   display: none;
 }
 
-
 /* =========================
    レイアウト
 ========================= */
 
 header {
   background: #111827;
+
   color: white;
 
   padding: 16px 20px;
@@ -45,7 +48,6 @@ main {
   padding: 16px;
 }
 
-
 /* =========================
    検索
 ========================= */
@@ -62,29 +64,55 @@ main {
   font-size: 14px;
 
   border: 1px solid #ccc;
+
   border-radius: 8px;
 }
-
 
 /* =========================
    タイトルタブ
 ========================= */
 
 #title-tabs {
+
   display: flex;
-  flex-wrap: wrap;
+
+  flex-wrap: nowrap;
 
   gap: 8px;
 
+  overflow-x: auto;
+
+  white-space: nowrap;
+
+  padding-bottom: 6px;
+
   margin-bottom: 14px;
+
+  scrollbar-width: thin;
+}
+
+#title-tabs::-webkit-scrollbar {
+
+  height: 6px;
+}
+
+#title-tabs::-webkit-scrollbar-thumb {
+
+  background: #ccc;
+
+  border-radius: 999px;
 }
 
 .title-tab {
+
+  flex-shrink: 0;
+
   padding: 6px 12px;
 
   background: white;
 
   border: 1px solid #ccc;
+
   border-radius: 999px;
 
   cursor: pointer;
@@ -93,24 +121,28 @@ main {
 }
 
 .title-tab.active {
+
   background: #111827;
+
   color: white;
 }
-
 
 /* =========================
    更新ボタン
 ========================= */
 
 #refresh-button {
+
   margin-bottom: 14px;
 
   padding: 8px 14px;
 
   border: none;
+
   border-radius: 8px;
 
   background: #111827;
+
   color: white;
 
   cursor: pointer;
@@ -123,6 +155,7 @@ main {
 }
 
 #update-time {
+
   margin-bottom: 14px;
 
   color: #666;
@@ -130,16 +163,17 @@ main {
   font-size: 12px;
 }
 
-
 /* =========================
    テーブル
 ========================= */
 
 .table-wrapper {
+
   overflow-x: auto;
 }
 
 table {
+
   width: 100%;
 
   border-collapse: collapse;
@@ -150,12 +184,15 @@ table {
 }
 
 thead {
+
   background: #1f2937;
+
   color: white;
 }
 
 th,
 td {
+
   padding: 10px 8px;
 
   border-bottom: 1px solid #ddd;
@@ -170,26 +207,29 @@ td {
 }
 
 .card-name {
+
   min-width: 160px;
 
   font-weight: bold;
 }
 
 .price {
+
   color: #dc2626;
 
   font-size: 16px;
+
   font-weight: bold;
 
   white-space: nowrap;
 }
-
 
 /* =========================
    画像ポップアップ
 ========================= */
 
 .image-popup-trigger {
+
   color: #2563eb;
 
   font-weight: bold;
@@ -198,6 +238,7 @@ td {
 }
 
 #image-modal {
+
   position: fixed;
 
   inset: 0;
@@ -205,18 +246,23 @@ td {
   background: rgba(0,0,0,0.4);
 
   display: flex;
+
   justify-content: center;
+
   align-items: center;
 
   z-index: 1000;
 }
 
 #image-modal.hidden {
+
   display: none;
 }
 
 #modal-image {
+
   max-width: 280px;
+
   max-height: 400px;
 
   border-radius: 12px;
@@ -226,97 +272,57 @@ td {
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
 }
 
-
 /* =========================
    注意事項
 ========================= */
 
 .notice-box {
+
   margin-bottom: 20px;
 
   background: white;
 
   border: 1px solid #ddd;
+
   border-radius: 8px;
 
   overflow: hidden;
-}
 
-.notice-content {
   padding: 14px;
 }
 
-.notice-content p {
-  margin: 0 0 8px;
+.notice-box h2 {
+
+  margin-top: 0;
+
+  font-size: 18px;
+}
+
+.notice-box p {
+
+  margin: 0 0 10px;
 
   font-size: 13px;
 }
 
-.notice-box details summary {
-  list-style: none;
+#notice-toggle {
 
-  cursor: pointer;
+  border: none;
+
+  background: none;
 
   color: #2563eb;
 
   font-weight: bold;
 
-  padding: 0 14px 14px;
-}
+  cursor: pointer;
 
-.notice-box details summary::-webkit-details-marker {
-  display: none;
+  padding: 0;
 }
-
-.notice-box details summary::after {
-  content: "続きを読む";
-}
-
-.notice-box details[open] summary::after {
-  content: "閉じる";
-}
-
 
 /* =========================
-   スマホ
+   表示切替
 ========================= */
-
-@media screen and (max-width: 768px) {
-
-  h1 {
-    font-size: 20px;
-  }
-
-  th,
-  td {
-    padding: 8px 6px;
-
-    font-size: 10px;
-  }
-
-  .price {
-    font-size: 13px;
-  }
-
-  .card-name {
-    min-width: 120px;
-  }
-
-  #title-tabs {
-    gap: 6px;
-  }
-
-  .title-tab {
-    padding: 5px 10px;
-
-    font-size: 11px;
-  }
-
-  #search-input {
-    font-size: 13px;
-  }
-
-}
 
 .view-toggle {
 
@@ -332,6 +338,7 @@ td {
   padding: 8px 14px;
 
   border: none;
+
   border-radius: 8px;
 
   background: #e5e7eb;
@@ -345,6 +352,10 @@ td {
 
   color: white;
 }
+
+/* =========================
+   カード表示
+========================= */
 
 #card-view:not(.hidden) {
 
@@ -404,6 +415,10 @@ td {
   font-weight: bold;
 }
 
+/* =========================
+   ページネーション
+========================= */
+
 #pagination {
 
   display: flex;
@@ -435,4 +450,45 @@ td {
   background: #111827;
 
   color: white;
+}
+
+/* =========================
+   スマホ
+========================= */
+
+@media screen and (max-width: 768px) {
+
+  h1 {
+
+    font-size: 20px;
+  }
+
+  th,
+  td {
+
+    padding: 8px 6px;
+
+    font-size: 10px;
+  }
+
+  .price {
+
+    font-size: 13px;
+  }
+
+  .card-name {
+
+    min-width: 120px;
+  }
+
+  #search-input {
+
+    font-size: 13px;
+  }
+
+  #card-view:not(.hidden) {
+
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
 }
