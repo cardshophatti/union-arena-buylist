@@ -182,18 +182,13 @@ function renderPagination(cards) {
 
     }
 
-    button.addEventListener("click", () => {
+ button.addEventListener("click", () => {
 
-      currentPage = i;
+  currentPage = i;
 
-      filterCards();
+  filterCards();
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-
-    });
+});
 
     pagination.appendChild(button);
 
