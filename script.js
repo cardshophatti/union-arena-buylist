@@ -10,6 +10,10 @@ let currentTitle = "ALL";
 
 let currentView = "table";
 
+let currentPage = 1;
+
+const CARDS_PER_PAGE = 100;
+
 const cachedData = localStorage.getItem(CACHE_KEY);
 const cachedTime = localStorage.getItem(CACHE_TIME_KEY);
 
@@ -45,15 +49,26 @@ fetchCards();
 
 function renderCards(cards) {
 
+  const start =
+    (currentPage - 1) * CARDS_PER_PAGE;
+
+  const end =
+    start + CARDS_PER_PAGE;
+
+  const pagedCards =
+    cards.slice(start, end);
+
   if (currentView === "table") {
 
-    renderTable(cards);
+    renderTable(pagedCards);
 
   } else {
 
-    renderCardView(cards);
+    renderCardView(pagedCards);
 
   }
+
+  renderPagination(cards);
 
 }
 
@@ -140,6 +155,52 @@ function renderCardView(cards) {
 
 }
 
+function renderPagination(cards) {
+
+  const totalPages =
+    Math.ceil(cards.length / CARDS_PER_PAGE);
+
+  let pagination =
+    document.getElementById("pagination");
+
+  pagination.innerHTML = "";
+
+  if (totalPages <= 1) return;
+
+  for (let i = 1; i <= totalPages; i++) {
+
+    const button =
+      document.createElement("button");
+
+    button.textContent = i;
+
+    button.className = "page-button";
+
+    if (i === currentPage) {
+
+      button.classList.add("active");
+
+    }
+
+    button.addEventListener("click", () => {
+
+      currentPage = i;
+
+      filterCards();
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    });
+
+    pagination.appendChild(button);
+
+  }
+
+}
+
 function renderTitleTabs(cards) {
 
   const tabsContainer =
@@ -168,6 +229,7 @@ function renderTitleTabs(cards) {
     }
 
     button.addEventListener("click", () => {
+      currentPage = 1;
 
       currentTitle = title;
 
@@ -215,6 +277,8 @@ const searchInput =
   document.getElementById("search-input");
 
 searchInput.addEventListener("input", () => {
+
+  currentPage = 1;
 
   filterCards();
 
