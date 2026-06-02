@@ -36,11 +36,17 @@ if (
   Date.now() - Number(cachedTime) < CACHE_DURATION
 ) {
 
+  document
+    .getElementById("loading")
+    .classList.add("hidden");
+
   allCards = JSON.parse(cachedData);
-renderTitleSelect(allCards);
+
+  renderTitleSelect(allCards);
+
   renderCards(allCards);
 
- updateFetchTime(Number(cachedTime));
+  updateFetchTime(Number(cachedTime));
 
 } else  {
 fetchCards();
@@ -314,9 +320,13 @@ function fetchCards() {
 
   fetch(API_URL)
     .then(response => response.json())
-    .then(data => {
+   .then(data => {
 
-      allCards = data;
+  document
+    .getElementById("loading")
+    .classList.add("hidden");
+
+  allCards = data;
 
       localStorage.setItem(
         CACHE_KEY,
@@ -419,6 +429,8 @@ titleSelect.addEventListener("change", () => {
 
   currentTitle =
     titleSelect.value;
+
+  currentPage = 1;
 
   filterCards();
 
