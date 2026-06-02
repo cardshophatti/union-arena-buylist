@@ -68,6 +68,26 @@ main {
   border-radius: 8px;
 }
 
+.title-select-area {
+
+  margin-bottom: 16px;
+}
+
+#title-select {
+
+  width: 100%;
+
+  padding: 12px;
+
+  font-size: 14px;
+
+  border: 1px solid #ccc;
+
+  border-radius: 8px;
+
+  background: white;
+}
+
 /* =========================
    タイトルタブ
 ========================= */
@@ -492,3 +512,4 @@ td {
       repeat(2, 1fr);
   }
 }
+

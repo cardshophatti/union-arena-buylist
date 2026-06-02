@@ -37,7 +37,7 @@ if (
 ) {
 
   allCards = JSON.parse(cachedData);
-renderTitleTabs(allCards);
+renderTitleSelect(allCards);
   renderCards(allCards);
 
  updateFetchTime(Number(cachedTime));
@@ -195,13 +195,12 @@ function renderPagination(cards) {
   }
 
 }
+function renderTitleSelect(cards) {
 
-function renderTitleTabs(cards) {
+  const select =
+    document.getElementById("title-select");
 
-  const tabsContainer =
-    document.getElementById("title-tabs");
-
-  tabsContainer.innerHTML = "";
+  select.innerHTML = "";
 
   const titles = [
     "ALL",
@@ -212,31 +211,21 @@ function renderTitleTabs(cards) {
 
   titles.forEach(title => {
 
-    const button =
-      document.createElement("button");
+    const option =
+      document.createElement("option");
 
-    button.textContent = title;
+    option.value = title;
 
-    button.className = "title-tab";
+    option.textContent =
+      title === "ALL"
+        ? "すべてのタイトル"
+        : title;
 
-    if (title === currentTitle) {
-      button.classList.add("active");
-    }
-
-    button.addEventListener("click", () => {
-      currentPage = 1;
-
-      currentTitle = title;
-
-      renderTitleTabs(allCards);
-
-      filterCards();
-
-    });
-
-    tabsContainer.appendChild(button);
+    select.appendChild(option);
 
   });
+
+  select.value = currentTitle;
 
 }
 
@@ -339,7 +328,7 @@ function fetchCards() {
         Date.now()
       );
 
-      renderTitleTabs(allCards);
+      renderTitleSelect(allCards);
 
       renderCards(allCards);
 
@@ -354,12 +343,15 @@ function fetchCards() {
 
 const refreshButton =
   document.getElementById("refresh-button");
-
 refreshButton.addEventListener("click", () => {
 
   localStorage.removeItem(CACHE_KEY);
 
   localStorage.removeItem(CACHE_TIME_KEY);
+
+  currentTitle = "ALL";
+
+  searchInput.value = "";
 
   fetchCards();
 
@@ -415,6 +407,18 @@ cardViewButton.addEventListener("click", () => {
   cardViewButton.classList.add("active");
 
   tableViewButton.classList.remove("active");
+
+  filterCards();
+
+});
+
+const titleSelect =
+  document.getElementById("title-select");
+
+titleSelect.addEventListener("change", () => {
+
+  currentTitle =
+    titleSelect.value;
 
   filterCards();
 
