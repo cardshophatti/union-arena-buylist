@@ -150,9 +150,10 @@ function renderCardView(cards) {
         ${card["型番"]}
       </div>
 
-      <div class="card-item-price">
-        ¥${Number(card["買取価格"]).toLocaleString()}
-      </div>
+   <div class="card-item-price">
+  <span class="buy-label">買取</span>
+  ¥${Number(card["買取価格"]).toLocaleString()}
+</div>
     `;
 
     cardView.appendChild(item);

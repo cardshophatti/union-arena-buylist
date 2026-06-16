@@ -518,3 +518,20 @@ td {
   padding: 20px;
   font-size: 14px;
 }
+
+.buy-label {
+
+  display: inline-block;
+
+  padding: 2px 6px;
+
+  margin-right: 6px;
+
+  background: #dc2626;
+
+  color: white;
+
+  font-size: 12px;
+
+  border-radius: 4px;
+}
