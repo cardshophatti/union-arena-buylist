@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../union-arena-deck-buylist"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "union-arena-deck-buylist"
+	}
+}
