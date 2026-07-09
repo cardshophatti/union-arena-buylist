@@ -1,0 +1,537 @@
+/* =========================
+   共通
+========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+
+  background: #f3f4f6;
+
+  font-family: sans-serif;
+
+  color: #333;
+
+  overflow-x: hidden;
+}
+
+.hidden {
+  display: none;
+}
+
+/* =========================
+   レイアウト
+========================= */
+
+header {
+  background: #e11d48;;
+
+  color: white;
+
+  padding: 16px 20px;
+}
+
+h1 {
+  margin: 0;
+
+  font-size: 24px;
+}
+
+main {
+  max-width: 1000px;
+
+  margin: 0 auto;
+
+  padding: 16px;
+}
+
+/* =========================
+   検索
+========================= */
+
+.search-area {
+  margin-bottom: 16px;
+}
+
+#search-input {
+  width: 100%;
+
+  padding: 12px;
+
+  font-size: 14px;
+
+  border: 1px solid #ccc;
+
+  border-radius: 8px;
+}
+
+.title-select-area {
+
+  margin-bottom: 16px;
+}
+
+#title-select {
+
+  width: 100%;
+
+  padding: 12px;
+
+  font-size: 14px;
+
+  border: 1px solid #ccc;
+
+  border-radius: 8px;
+
+  background: white;
+}
+
+/* =========================
+   タイトルタブ
+========================= */
+
+#title-tabs {
+
+  display: flex;
+
+  flex-wrap: nowrap;
+
+  gap: 8px;
+
+  overflow-x: auto;
+
+  white-space: nowrap;
+
+  padding-bottom: 6px;
+
+  margin-bottom: 14px;
+
+  scrollbar-width: thin;
+}
+
+#title-tabs::-webkit-scrollbar {
+
+  height: 6px;
+}
+
+#title-tabs::-webkit-scrollbar-thumb {
+
+  background: #ccc;
+
+  border-radius: 999px;
+}
+
+.title-tab {
+
+  flex-shrink: 0;
+
+  padding: 6px 12px;
+
+  background: white;
+
+  border: 1px solid #ccc;
+
+  border-radius: 999px;
+
+  cursor: pointer;
+
+  font-size: 12px;
+}
+
+.title-tab.active {
+
+  background: #111827;
+
+  color: white;
+}
+
+/* =========================
+   更新ボタン
+========================= */
+
+#refresh-button {
+
+  margin-bottom: 14px;
+
+  padding: 8px 14px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: #111827;
+
+  color: white;
+
+  cursor: pointer;
+
+  font-size: 13px;
+}
+
+#refresh-button:hover {
+  opacity: 0.9;
+}
+
+#update-time {
+
+  margin-bottom: 14px;
+
+  color: #666;
+
+  font-size: 12px;
+}
+
+/* =========================
+   テーブル
+========================= */
+
+.table-wrapper {
+
+  overflow-x: auto;
+}
+
+table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+  background: white;
+
+  table-layout: fixed;
+}
+
+thead {
+
+  background: #1f2937;
+
+  color: white;
+}
+
+th,
+td {
+
+  padding: 10px 8px;
+
+  border-bottom: 1px solid #ddd;
+
+  text-align: left;
+
+  width: auto;
+
+  word-break: break-word;
+
+  font-size: 12px;
+}
+
+.card-name {
+
+  min-width: 160px;
+
+  font-weight: bold;
+}
+
+.price {
+
+  color: #dc2626;
+
+  font-size: 16px;
+
+  font-weight: bold;
+
+  white-space: nowrap;
+}
+
+/* =========================
+   画像ポップアップ
+========================= */
+
+.image-popup-trigger {
+
+  color: #2563eb;
+
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+#image-modal {
+
+  position: fixed;
+
+  inset: 0;
+
+  background: rgba(0,0,0,0.4);
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  z-index: 1000;
+}
+
+#image-modal.hidden {
+
+  display: none;
+}
+
+#modal-image {
+
+  max-width: 90vw;
+
+  max-height: 90vh;
+
+  border-radius: 12px;
+
+  background: white;
+
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+/* =========================
+   注意事項
+========================= */
+
+.notice-box {
+
+  margin-bottom: 20px;
+
+  background: white;
+
+  border: 1px solid #ddd;
+
+  border-radius: 8px;
+
+  overflow: hidden;
+
+  padding: 14px;
+}
+
+.notice-box h2 {
+
+  margin-top: 0;
+
+  font-size: 18px;
+}
+
+.notice-box p {
+
+  margin: 0 0 10px;
+
+  font-size: 13px;
+}
+
+#notice-toggle {
+
+  border: none;
+
+  background: none;
+
+  color: #2563eb;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  padding: 0;
+}
+
+/* =========================
+   表示切替
+========================= */
+
+.view-toggle {
+
+  display: flex;
+
+  gap: 10px;
+
+  margin-bottom: 16px;
+}
+
+.view-toggle button {
+
+  padding: 8px 14px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: #e5e7eb;
+
+  cursor: pointer;
+}
+
+.view-toggle button.active {
+
+  background: #111827;
+
+  color: white;
+}
+
+/* =========================
+   カード表示
+========================= */
+
+#card-view:not(.hidden) {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(160px, 1fr));
+
+  gap: 16px;
+}
+
+.card-item {
+
+  background: white;
+
+  border-radius: 12px;
+
+  padding: 12px;
+
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.08);
+}
+
+.card-item-image {
+
+  width: 100%;
+
+  border-radius: 8px;
+
+  margin-bottom: 10px;
+}
+
+.card-item-name {
+
+  font-size: 14px;
+
+  font-weight: bold;
+
+  margin-bottom: 6px;
+}
+
+.card-item-number {
+
+  font-size: 12px;
+
+  color: #666;
+
+  margin-bottom: 8px;
+}
+
+.card-item-price {
+
+  color: #dc2626;
+
+  font-size: 18px;
+
+  font-weight: bold;
+}
+
+/* =========================
+   ページネーション
+========================= */
+
+#pagination {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  justify-content: center;
+
+  margin: 20px 0;
+}
+
+.page-button {
+
+  padding: 8px 12px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: #e5e7eb;
+
+  cursor: pointer;
+}
+
+.page-button.active {
+
+  background: #111827;
+
+  color: white;
+}
+
+/* =========================
+   スマホ
+========================= */
+
+@media screen and (max-width: 768px) {
+
+  h1 {
+
+    font-size: 20px;
+  }
+
+  th,
+  td {
+
+    padding: 8px 6px;
+
+    font-size: 10px;
+  }
+
+  .price {
+
+    font-size: 13px;
+  }
+
+  .card-name {
+
+    min-width: 120px;
+  }
+
+  #search-input {
+
+    font-size: 13px;
+  }
+
+  #card-view:not(.hidden) {
+
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+}
+
+#loading {
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+}
+
+.buy-label {
+
+  display: inline-block;
+
+  padding: 2px 6px;
+
+  margin-right: 6px;
+
+  background: #dc2626;
+
+  color: white;
+
+  font-size: 12px;
+
+  border-radius: 4px;
+}
