@@ -12,6 +12,8 @@ let currentView = "table";
 
 let currentPage = 1;
 
+let currentSort = "price-desc";
+
 const CARDS_PER_PAGE = 100;
 
 const cachedData = localStorage.getItem(CACHE_KEY);
@@ -235,13 +237,20 @@ function renderTitleSelect(cards) {
   select.value = currentTitle;
 
 }
-
 function filterCards() {
 
   const keyword =
     searchInput.value.toLowerCase();
 
-  const filteredCards =
+  const sortSelect =
+    document.getElementById("sort-select");
+
+  const sortType =
+    sortSelect ? sortSelect.value : currentSort;
+
+  currentSort = sortType;
+
+  let filteredCards =
     allCards.filter(card => {
 
       const matchKeyword =
@@ -258,16 +267,56 @@ function filterCards() {
 
     });
 
+  // 価格が高い順
+  if (sortType === "price-desc") {
+
+    filteredCards.sort((a, b) => {
+
+      return Number(b["買取価格"]) -
+             Number(a["買取価格"]);
+
+    });
+
+  }
+
+  // 価格が安い順
+  else if (sortType === "price-asc") {
+
+    filteredCards.sort((a, b) => {
+
+      return Number(a["買取価格"]) -
+             Number(b["買取価格"]);
+
+    });
+
+  }
+
+  // タイトル順
+  // 何もしない
+  // スプレッドシートの元の順番を維持
+
   renderCards(filteredCards);
 
 }
-
 
 
 const searchInput =
   document.getElementById("search-input");
 
 searchInput.addEventListener("input", () => {
+
+  currentPage = 1;
+
+  filterCards();
+
+});
+
+const sortSelect =
+  document.getElementById("sort-select");
+
+sortSelect.value = "price-desc";
+
+sortSelect.addEventListener("change", () => {
 
   currentPage = 1;
 
@@ -339,11 +388,12 @@ function fetchCards() {
         Date.now()
       );
 
-      renderTitleSelect(allCards);
 
-      renderCards(allCards);
+renderTitleSelect(allCards);
 
-      updateFetchTime(Date.now());
+filterCards();
+
+updateFetchTime(Number(cachedTime));
 
     })
     .catch(error => {
@@ -362,7 +412,13 @@ refreshButton.addEventListener("click", () => {
 
   currentTitle = "ALL";
 
+  currentPage = 1;
+
+  currentSort = "price-desc";
+
   searchInput.value = "";
+
+  sortSelect.value = "price-desc";
 
   fetchCards();
 
