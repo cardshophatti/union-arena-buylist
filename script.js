@@ -240,8 +240,8 @@ function renderTitleSelect(cards) {
 }
 function filterCards() {
 
-  const keyword =
-    searchInput.value.toLowerCase();
+   const keyword =
+  normalizeSearch(searchInput.value);
 
   const sortSelect =
     document.getElementById("sort-select");
@@ -254,11 +254,20 @@ function filterCards() {
   let filteredCards =
     allCards.filter(card => {
 
-      const matchKeyword =
+const title =
+  normalizeSearch(card["タイトル"]);
 
-        card["タイトル"]?.toLowerCase().includes(keyword) ||
-        card["名前"]?.toLowerCase().includes(keyword) ||
-        card["型番"]?.toLowerCase().includes(keyword);
+const name =
+  normalizeSearch(card["名前"]);
+
+const cardNo =
+  normalizeSearch(card["型番"]);
+
+const matchKeyword =
+
+  title.includes(keyword) ||
+  name.includes(keyword) ||
+  cardNo.includes(keyword);
 
       const matchTitle =
         currentTitle === "ALL" ||
@@ -493,3 +502,11 @@ titleSelect.addEventListener("change", () => {
   filterCards();
 
 });
+
+function normalizeSearch(text) {
+
+  return String(text || "")
+    .toLowerCase()
+    .replace(/[-／/＿_\s]/g, "");
+
+}
