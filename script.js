@@ -412,27 +412,6 @@ updateFetchTime(Number(cachedTime));
 
 }
 
-const refreshButton =
-  document.getElementById("refresh-button");
-refreshButton.addEventListener("click", () => {
-
-  localStorage.removeItem(CACHE_KEY);
-
-  localStorage.removeItem(CACHE_TIME_KEY);
-
-  currentTitle = "ALL";
-
-  currentPage = 1;
-
-let currentSort = "title";
-
-  searchInput.value = "";
-
-  sortSelect.value = "title";
-
-  fetchCards();
-
-});
 
 const noticeToggle =
   document.getElementById("notice-toggle");
