@@ -426,7 +426,7 @@ refreshButton.addEventListener("click", () => {
 
 let currentSort = "title";
 
-  searchInput.value = "title";
+  searchInput.value = "";
 
   sortSelect.value = "title";
 
