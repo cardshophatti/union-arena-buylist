@@ -8,11 +8,11 @@ let allCards = [];
 
 let currentTitle = "ALL";
 
-let currentView = "table";
+let currentView = "card";
 
 let currentPage = 1;
 
-let currentSort = "price-desc";
+let currentSort = "title";
 
 const CARDS_PER_PAGE = 100;
 
@@ -32,6 +32,9 @@ const tableWrapper =
 const cardView =
   document.getElementById("card-view");
 
+  cardViewButton.classList.add("active");
+tableViewButton.classList.remove("active");
+
 if (
   cachedData &&
   cachedTime &&
@@ -41,13 +44,11 @@ if (
   document
     .getElementById("loading")
     .classList.add("hidden");
+allCards = JSON.parse(cachedData);
 
-  allCards = JSON.parse(cachedData);
+renderTitleSelect(allCards);
 
-  renderTitleSelect(allCards);
-
-  renderCards(allCards);
-
+renderCards(allCards);
   updateFetchTime(Number(cachedTime));
 
 } else  {
@@ -314,7 +315,7 @@ searchInput.addEventListener("input", () => {
 const sortSelect =
   document.getElementById("sort-select");
 
-sortSelect.value = "price-desc";
+sortSelect.value = "title";
 
 sortSelect.addEventListener("change", () => {
 
@@ -414,11 +415,11 @@ refreshButton.addEventListener("click", () => {
 
   currentPage = 1;
 
-  currentSort = "price-desc";
+let currentSort = "title";
 
-  searchInput.value = "";
+  searchInput.value = "title";
 
-  sortSelect.value = "price-desc";
+  sortSelect.value = "title";
 
   fetchCards();
 
