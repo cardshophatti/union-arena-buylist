@@ -55,8 +55,18 @@ allCards = JSON.parse(cachedData);
 
 renderTitleSelect(allCards);
 
-renderCards(allCards);
+const filteredCards = allCards.filter(card => {
 
+  const matchTitle =
+    currentTitle === "ALL" ||
+    normalizeSearch(card["タイトル"]) ===
+    normalizeSearch(currentTitle);
+
+  return matchTitle;
+
+});
+
+renderCards(filteredCards);
 updateFetchTime(Number(cachedTime));
 
 } else  {
