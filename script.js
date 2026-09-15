@@ -4,6 +4,12 @@ const CACHE_TIME_KEY = "unionArenaCacheTime";
 
 const CACHE_DURATION = 5 * 60 * 1000;
 
+const urlParams =
+  new URLSearchParams(window.location.search);
+
+const filterCode =
+  urlParams.get("filter");
+
 let allCards = [];
 
 let currentTitle = "ALL";
@@ -48,7 +54,9 @@ allCards = JSON.parse(cachedData);
 
 renderTitleSelect(allCards);
 
-renderCards(allCards);
+filterCards();
+
+
   updateFetchTime(Number(cachedTime));
 
 } else  {
@@ -218,6 +226,18 @@ function renderTitleSelect(cards) {
       cards.map(card => card["タイトル"])
     )
   ];
+
+  if (filterCode) {
+
+  const matchedTitle = titles.find(title =>
+    title.startsWith(filterCode)
+  );
+
+  if (matchedTitle) {
+    currentTitle = matchedTitle;
+  }
+
+}
 
   titles.forEach(title => {
 
