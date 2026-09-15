@@ -10,6 +10,7 @@ const urlParams =
 const filterCode =
   urlParams.get("filter");
 
+
 let allCards = [];
 
 let currentTitle = "ALL";
@@ -213,6 +214,7 @@ function renderPagination(cards) {
   }
 
 }
+
 function renderTitleSelect(cards) {
 
   const select =
@@ -227,17 +229,18 @@ function renderTitleSelect(cards) {
     )
   ];
 
+  // URLの ?filter=UA53BT を取得
   if (filterCode) {
 
-  const matchedTitle = titles.find(title =>
-    title.startsWith(filterCode)
-  );
+    const matchedTitle = titles.find(title =>
+      title.startsWith(filterCode)
+    );
 
-  if (matchedTitle) {
-    currentTitle = matchedTitle;
+    if (matchedTitle) {
+      currentTitle = matchedTitle;
+    }
+
   }
-
-}
 
   titles.forEach(title => {
 
@@ -258,6 +261,7 @@ function renderTitleSelect(cards) {
   select.value = currentTitle;
 
 }
+
 function filterCards() {
 
    const keyword =
