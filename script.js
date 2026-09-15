@@ -232,9 +232,9 @@ function renderTitleSelect(cards) {
   // URLの ?filter=UA53BT を取得
   if (filterCode) {
 
-    const matchedTitle = titles.find(title =>
-      title.startsWith(filterCode)
-    );
+ const matchedTitle = titles.find(title =>
+  title.includes(filterCode)
+);
 
     if (matchedTitle) {
       currentTitle = matchedTitle;
