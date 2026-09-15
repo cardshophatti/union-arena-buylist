@@ -1,15 +1,22 @@
 const API_URL = "https://opensheet.elk.sh/1y_LfZ_8dXOX93DRojuD-1OnRKxG1gOsSLQ9MEZQ874o/%E3%82%B7%E3%83%BC%E3%83%881";
+
 const CACHE_KEY = "unionArenaCache";
 const CACHE_TIME_KEY = "unionArenaCacheTime";
 
 const CACHE_DURATION = 5 * 60 * 1000;
 
-const urlParams =
-  new URLSearchParams(window.location.search);
 
-const filterCode =
-  urlParams.get("filter");
+// =========================
+// URLフィルター
+// =========================
 
+const urlParams = new URLSearchParams(window.location.search);
+const filterCode = urlParams.get("filter");
+
+
+// =========================
+// 基本設定
+// =========================
 
 let allCards = [];
 
@@ -23,11 +30,12 @@ let currentSort = "title";
 
 const CARDS_PER_PAGE = 100;
 
-const cachedData = localStorage.getItem(CACHE_KEY);
-const cachedTime = localStorage.getItem(CACHE_TIME_KEY);
 
+// =========================
+// HTML要素
+// =========================
 
-  const tableViewButton =
+const tableViewButton =
   document.getElementById("table-view-button");
 
 const cardViewButton =
@@ -39,8 +47,48 @@ const tableWrapper =
 const cardView =
   document.getElementById("card-view");
 
-  cardViewButton.classList.add("active");
+const searchInput =
+  document.getElementById("search-input");
+
+const sortSelect =
+  document.getElementById("sort-select");
+
+const titleSelect =
+  document.getElementById("title-select");
+
+const modal =
+  document.getElementById("image-modal");
+
+const modalImage =
+  document.getElementById("modal-image");
+
+const noticeToggle =
+  document.getElementById("notice-toggle");
+
+const noticeMore =
+  document.getElementById("notice-more");
+
+
+// =========================
+// 初期表示
+// =========================
+
+cardViewButton.classList.add("active");
 tableViewButton.classList.remove("active");
+
+sortSelect.value = "title";
+
+
+// =========================
+// キャッシュ確認
+// =========================
+
+const cachedData =
+  localStorage.getItem(CACHE_KEY);
+
+const cachedTime =
+  localStorage.getItem(CACHE_TIME_KEY);
+
 
 if (
   cachedData &&
@@ -51,28 +99,27 @@ if (
   document
     .getElementById("loading")
     .classList.add("hidden");
-allCards = JSON.parse(cachedData);
 
-renderTitleSelect(allCards);
+  allCards = JSON.parse(cachedData);
 
-const filteredCards = allCards.filter(card => {
+  renderTitleSelect(allCards);
 
-  const matchTitle =
-    currentTitle === "ALL" ||
-    normalizeSearch(card["タイトル"]) ===
-    normalizeSearch(currentTitle);
+  currentPage = 1;
 
-  return matchTitle;
+  filterCards();
 
-});
+  updateFetchTime(Number(cachedTime));
 
-renderCards(filteredCards);
-updateFetchTime(Number(cachedTime));
+} else {
 
-} else  {
-fetchCards();
+  fetchCards();
 
 }
+
+
+// =========================
+// カード表示
+// =========================
 
 function renderCards(cards) {
 
@@ -85,6 +132,7 @@ function renderCards(cards) {
   const pagedCards =
     cards.slice(start, end);
 
+
   if (currentView === "table") {
 
     renderTable(pagedCards);
@@ -95,9 +143,14 @@ function renderCards(cards) {
 
   }
 
-  renderPagination(cards);
 
+  renderPagination(cards);
 }
+
+
+// =========================
+// リスト表示
+// =========================
 
 function renderTable(cards) {
 
@@ -110,10 +163,12 @@ function renderTable(cards) {
 
   cardList.innerHTML = "";
 
+
   cards.forEach(card => {
 
     const row =
       document.createElement("tr");
+
 
     row.innerHTML = `
       <td>${card["タイトル"]}</td>
@@ -136,11 +191,17 @@ function renderTable(cards) {
       </td>
     `;
 
+
     cardList.appendChild(row);
 
   });
 
 }
+
+
+// =========================
+// 画像表示
+// =========================
 
 function renderCardView(cards) {
 
@@ -150,12 +211,14 @@ function renderCardView(cards) {
 
   cardView.innerHTML = "";
 
+
   cards.forEach(card => {
 
     const item =
       document.createElement("div");
 
     item.className = "card-item";
+
 
     item.innerHTML = `
       <img
@@ -171,11 +234,12 @@ function renderCardView(cards) {
         ${card["型番"]}
       </div>
 
-   <div class="card-item-price">
-  <span class="buy-label">買取</span>
-  ¥${Number(card["買取価格"]).toLocaleString()}
-</div>
+      <div class="card-item-price">
+        <span class="buy-label">買取</span>
+        ¥${Number(card["買取価格"]).toLocaleString()}
+      </div>
     `;
+
 
     cardView.appendChild(item);
 
@@ -183,17 +247,26 @@ function renderCardView(cards) {
 
 }
 
+
+// =========================
+// ページネーション
+// =========================
+
 function renderPagination(cards) {
 
   const totalPages =
     Math.ceil(cards.length / CARDS_PER_PAGE);
 
-  let pagination =
+  const pagination =
     document.getElementById("pagination");
 
   pagination.innerHTML = "";
 
-  if (totalPages <= 1) return;
+
+  if (totalPages <= 1) {
+    return;
+  }
+
 
   for (let i = 1; i <= totalPages; i++) {
 
@@ -204,25 +277,33 @@ function renderPagination(cards) {
 
     button.className = "page-button";
 
+
     if (i === currentPage) {
 
       button.classList.add("active");
 
     }
 
- button.addEventListener("click", () => {
 
-  currentPage = i;
+    button.addEventListener("click", () => {
 
-  filterCards();
+      currentPage = i;
 
-});
+      filterCards();
+
+    });
+
 
     pagination.appendChild(button);
 
   }
 
 }
+
+
+// =========================
+// タイトル選択
+// =========================
 
 function renderTitleSelect(cards) {
 
@@ -231,6 +312,7 @@ function renderTitleSelect(cards) {
 
   select.innerHTML = "";
 
+
   const titles = [
     "ALL",
     ...new Set(
@@ -238,115 +320,161 @@ function renderTitleSelect(cards) {
     )
   ];
 
-  // URLの ?filter=UA53BT を取得
+
+  // =========================
+  // URLフィルター
+  // =========================
+
   if (filterCode) {
 
- const matchedTitle = titles.find(title =>
-  title.includes(filterCode)
-);
+    const normalizedFilter =
+      normalizeFilter(filterCode);
+
+
+    const matchedTitle =
+      titles.find(title =>
+        normalizeFilter(title)
+          .includes(normalizedFilter)
+      );
+
 
     if (matchedTitle) {
+
       currentTitle = matchedTitle;
+
     }
 
   }
+
+
+  // =========================
+  // プルダウン作成
+  // =========================
 
   titles.forEach(title => {
 
     const option =
       document.createElement("option");
 
+
     option.value = title;
+
 
     option.textContent =
       title === "ALL"
         ? "すべてのタイトル"
         : title;
 
+
     select.appendChild(option);
 
   });
 
+
+  // URLフィルターで決まったタイトルを選択
   select.value = currentTitle;
 
 }
 
+
+// =========================
+// カード絞り込み
+// =========================
+
 function filterCards() {
 
-   const keyword =
-  normalizeSearch(
-    document.getElementById("search-input")?.value || ""
-  );
+  const keyword =
+    normalizeSearch(
+      searchInput?.value || ""
+    );
 
-  const sortSelect =
-    document.getElementById("sort-select");
 
   const sortType =
-    sortSelect ? sortSelect.value : currentSort;
+    sortSelect
+      ? sortSelect.value
+      : currentSort;
+
 
   currentSort = sortType;
+
 
   let filteredCards =
     allCards.filter(card => {
 
-const title =
-  normalizeSearch(card["タイトル"]);
+      const title =
+        normalizeSearch(card["タイトル"]);
 
-const name =
-  normalizeSearch(card["名前"]);
+      const name =
+        normalizeSearch(card["名前"]);
 
-const cardNo =
-  normalizeSearch(card["型番"]);
+      const cardNo =
+        normalizeSearch(card["型番"]);
 
-const matchKeyword =
 
-  title.includes(keyword) ||
-  name.includes(keyword) ||
-  cardNo.includes(keyword);
+      const matchKeyword =
+        title.includes(keyword) ||
+        name.includes(keyword) ||
+        cardNo.includes(keyword);
+
 
       const matchTitle =
         currentTitle === "ALL" ||
         card["タイトル"] === currentTitle;
 
+
       return matchKeyword && matchTitle;
 
     });
 
+
+  // =========================
   // 価格が高い順
+  // =========================
+
   if (sortType === "price-desc") {
 
     filteredCards.sort((a, b) => {
 
-      return Number(b["買取価格"]) -
-             Number(a["買取価格"]);
+      return (
+        Number(b["買取価格"]) -
+        Number(a["買取価格"])
+      );
 
     });
 
   }
 
+
+  // =========================
   // 価格が安い順
+  // =========================
+
   else if (sortType === "price-asc") {
 
     filteredCards.sort((a, b) => {
 
-      return Number(a["買取価格"]) -
-             Number(b["買取価格"]);
+      return (
+        Number(a["買取価格"]) -
+        Number(b["買取価格"])
+      );
 
     });
 
   }
 
-  // タイトル順
-  // 何もしない
-  // スプレッドシートの元の順番を維持
+
+  // タイトル順の場合は
+  // スプレッドシートの順番を維持
+
 
   renderCards(filteredCards);
 
 }
 
 
-const searchInput =
-  document.getElementById("search-input");
+// =========================
+// 検索
+// =========================
 
 searchInput.addEventListener("input", () => {
 
@@ -356,10 +484,10 @@ searchInput.addEventListener("input", () => {
 
 });
 
-const sortSelect =
-  document.getElementById("sort-select");
 
-sortSelect.value = "title";
+// =========================
+// 並び替え
+// =========================
 
 sortSelect.addEventListener("change", () => {
 
@@ -369,23 +497,32 @@ sortSelect.addEventListener("change", () => {
 
 });
 
-const modal = document.getElementById("image-modal");
-const modalImage = document.getElementById("modal-image");
+
+// =========================
+// 画像拡大
+// =========================
 
 document.addEventListener("click", (event) => {
 
-  const trigger = event.target.closest(".image-popup-trigger");
+  const trigger =
+    event.target.closest(
+      ".image-popup-trigger"
+    );
+
 
   if (trigger) {
 
-    const imageUrl = trigger.dataset.image;
+    const imageUrl =
+      trigger.dataset.image;
 
     modalImage.src = imageUrl;
 
     modal.classList.remove("hidden");
 
     return;
+
   }
+
 
   if (event.target === modal) {
 
@@ -395,9 +532,16 @@ document.addEventListener("click", (event) => {
 
 });
 
+
+// =========================
+// 最終取得時間
+// =========================
+
 function updateFetchTime(timestamp) {
 
-  const date = new Date(timestamp);
+  const date =
+    new Date(timestamp);
+
 
   const formatted =
     `${date.getFullYear()}/` +
@@ -406,60 +550,82 @@ function updateFetchTime(timestamp) {
     `${String(date.getHours()).padStart(2, "0")}:` +
     `${String(date.getMinutes()).padStart(2, "0")}`;
 
-  document.getElementById("update-time").textContent =
-    `最終更新：${formatted}`;
+
+  document.getElementById("update-time")
+    .textContent =
+      `最終更新：${formatted}`;
 
 }
+
+
+// =========================
+// データ取得
+// =========================
 
 function fetchCards() {
 
   fetch(API_URL)
+
     .then(response => response.json())
-   .then(data => {
 
-  document
-    .getElementById("loading")
-    .classList.add("hidden");
+    .then(data => {
 
-  allCards = data;
+      document
+        .getElementById("loading")
+        .classList.add("hidden");
+
+
+      allCards = data;
+
+
+      const fetchTime =
+        Date.now();
+
 
       localStorage.setItem(
         CACHE_KEY,
         JSON.stringify(data)
       );
 
+
       localStorage.setItem(
         CACHE_TIME_KEY,
-        Date.now()
+        fetchTime
       );
 
 
-renderTitleSelect(allCards);
+      renderTitleSelect(allCards);
 
-filterCards();
 
-updateFetchTime(Number(cachedTime));
+      currentPage = 1;
+
+      filterCards();
+
+
+      updateFetchTime(fetchTime);
 
     })
+
     .catch(error => {
+
       console.error("エラー:", error);
+
     });
 
 }
 
 
-const noticeToggle =
-  document.getElementById("notice-toggle");
-
-const noticeMore =
-  document.getElementById("notice-more");
-
+// =========================
+// 注意事項
+// =========================
 
 let noticeOpen = false;
+
 
 noticeToggle.addEventListener("click", () => {
 
   noticeOpen = !noticeOpen;
+
 
   if (noticeOpen) {
 
@@ -479,6 +645,11 @@ noticeToggle.addEventListener("click", () => {
 
 });
 
+
+// =========================
+// リスト表示ボタン
+// =========================
+
 tableViewButton.addEventListener("click", () => {
 
   currentView = "table";
@@ -490,6 +661,11 @@ tableViewButton.addEventListener("click", () => {
   filterCards();
 
 });
+
+
+// =========================
+// 画像表示ボタン
+// =========================
 
 cardViewButton.addEventListener("click", () => {
 
@@ -503,8 +679,10 @@ cardViewButton.addEventListener("click", () => {
 
 });
 
-const titleSelect =
-  document.getElementById("title-select");
+
+// =========================
+// タイトル変更
+// =========================
 
 titleSelect.addEventListener("change", () => {
 
@@ -517,10 +695,28 @@ titleSelect.addEventListener("change", () => {
 
 });
 
+
+// =========================
+// 検索文字の正規化
+// =========================
+
 function normalizeSearch(text) {
 
   return String(text || "")
     .toLowerCase()
-    .replace(/[-／/＿_\s]/g, "");
+    .replace(/[-－ー‐-‒–—―／/＿_\s]/g, "");
+
+}
+
+
+// =========================
+// URLフィルターの正規化
+// =========================
+
+function normalizeFilter(text) {
+
+  return String(text || "")
+    .toUpperCase()
+    .replace(/[\[\]【】（）(){}「」『』\s_\-－ー‐-‒–—―／/]/g, "");
 
 }
