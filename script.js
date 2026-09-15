@@ -55,10 +55,9 @@ allCards = JSON.parse(cachedData);
 
 renderTitleSelect(allCards);
 
-filterCards();
+renderCards(allCards);
 
-
-  updateFetchTime(Number(cachedTime));
+updateFetchTime(Number(cachedTime));
 
 } else  {
 fetchCards();
