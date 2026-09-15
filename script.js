@@ -265,7 +265,9 @@ function renderTitleSelect(cards) {
 function filterCards() {
 
    const keyword =
-  normalizeSearch(searchInput.value);
+  normalizeSearch(
+    document.getElementById("search-input")?.value || ""
+  );
 
   const sortSelect =
     document.getElementById("sort-select");
