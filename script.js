@@ -562,57 +562,94 @@ function updateFetchTime(timestamp) {
 // データ取得
 // =========================
 
-function fetchCards() {
+function fetchCards(forceRefresh = false) {
 
-  fetch(API_URL)
+  const refreshButton =
+    document.getElementById("refresh-price-button");
 
-    .then(response => response.json())
+  const loading =
+    document.getElementById("loading");
 
+  if (refreshButton) {
+    refreshButton.disabled = true;
+    refreshButton.textContent = "🔄 更新中...";
+  }
+
+const url = API_URL;
+
+fetch(url, {
+  cache: forceRefresh ? "no-store" : "default"
+})
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("HTTP " + response.status);
+      }
+      return response.json();
+    })
     .then(data => {
 
-      document
-        .getElementById("loading")
-        .classList.add("hidden");
-
+      if (!Array.isArray(data)) {
+        throw new Error("取得データが不正です");
+      }
 
       allCards = data;
 
-
-      const fetchTime =
-        Date.now();
-
+      const fetchTime = Date.now();
 
       localStorage.setItem(
         CACHE_KEY,
         JSON.stringify(data)
       );
 
-
       localStorage.setItem(
         CACHE_TIME_KEY,
-        fetchTime
+        String(fetchTime)
       );
 
+      if (loading) {
+        loading.classList.add("hidden");
+      }
 
       renderTitleSelect(allCards);
 
-
       currentPage = 1;
-
       filterCards();
-
-
       updateFetchTime(fetchTime);
 
-    })
+      if (refreshButton) {
+        refreshButton.textContent =
+          "✅ 更新完了";
 
+        setTimeout(() => {
+          refreshButton.textContent =
+            "🔄 最新の買取価格に更新";
+        }, 2000);
+      }
+
+    })
     .catch(error => {
 
-      console.error("エラー:", error);
+      console.error("価格取得エラー:", error);
 
+      alert(
+        "価格の更新に失敗しました。\n" +
+        "現在の表示価格は最新とは限りません。\n" +
+        "時間をおいて再度お試しください。"
+      );
+
+      if (loading) {
+        loading.textContent =
+          "価格データを取得できませんでした。";
+      }
+
+    })
+    .finally(() => {
+      if (refreshButton) {
+        refreshButton.disabled = false;
+      }
     });
-
 }
+
 
 
 // =========================
@@ -719,4 +756,50 @@ function normalizeFilter(text) {
     .toUpperCase()
     .replace(/[\[\]【】（）(){}「」『』\s_\-－ー‐-‒–—―／/]/g, "");
 
+}
+
+
+ // ========================================
+ // 最新の買取価格に更新ボタン
+ // ========================================
+
+const refreshPriceButton =
+  document.createElement("button");
+
+refreshPriceButton.id = "refresh-price-button";
+refreshPriceButton.type = "button";
+
+refreshPriceButton.textContent =
+  "🔄 最新の買取価格に更新";
+
+
+refreshPriceButton.style.cssText = `
+  display: block;
+  margin: 6px 0;
+  padding: 6px 10px;
+  background: #f5f5f5;
+  color: #666666;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: normal;
+  cursor: pointer;
+  width: fit-content;
+  max-width: 100%;
+`;
+
+refreshPriceButton.addEventListener(
+  "click",
+  () => fetchCards(true)
+);
+
+// 最終取得時刻の近くに配置
+const updateTimeElement =
+  document.getElementById("update-time");
+
+if (updateTimeElement) {
+  updateTimeElement.insertAdjacentElement(
+    "afterend",
+    refreshPriceButton
+  );
 }
